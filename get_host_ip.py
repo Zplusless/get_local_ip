@@ -64,14 +64,14 @@ def send_email(content, to_adress):
     smtp_server = SERVER
 
     msg = MIMEText('hello, the ip is ' + content, 'plain', 'utf-8')
-    msg['From'] = _format_addr('Python爱好者 <%s>' % from_addr)
+    msg['From'] = _format_addr('服务器ip监控 <%s>' % from_addr)
     msg['To'] = _format_addr('管理员 <%s>' % to_addr)
-    msg['Subject'] = Header('宿舍电脑ip变动'+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'utf-8').encode()
+    msg['Subject'] = Header('GPU服务器ip变动为：'+ content, 'utf-8').encode()
 
     server = smtplib.SMTP(smtp_server, 25)
     server.set_debuglevel(1)
     server.login(from_addr, password)
-    server.sendmail(from_addr, [to_addr], msg.as_string())
+    server.sendmail(from_addr, to_addr, msg.as_string())
     server.quit()
 
 
@@ -82,6 +82,7 @@ if __name__ == '__main__':
     if judge(ip = ip):
         send_email(ip, TARGET_EMAIL_ADRESS)
         print('邮件发送成功!!')
+    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     # else:
     #     print('ip not changed')
 
