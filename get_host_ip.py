@@ -63,9 +63,11 @@ def send_email(content, to_adress):
     to_addr = to_adress
     smtp_server = SERVER
 
-    msg = MIMEText('hello, the ip is ' + content, 'plain', 'utf-8')
+    time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    msg = MIMEText('hello, the ip is ' + content + '\n' + time_now, 'plain', 'utf-8')
     msg['From'] = _format_addr('服务器ip监控 <%s>' % from_addr)
-    msg['To'] = _format_addr('管理员 <%s>' % to_addr)
+    msg['To'] = _format_addr('edge <%s>' % to_addr)
     msg['Subject'] = Header('GPU服务器ip变动为：'+ content, 'utf-8').encode()
 
     server = smtplib.SMTP(smtp_server, 25)
